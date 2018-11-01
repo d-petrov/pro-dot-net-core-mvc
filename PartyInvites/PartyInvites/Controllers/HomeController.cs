@@ -21,5 +21,16 @@ namespace PartyInvites.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult RsvpForm(GuestResponse response)
+        {
+            Repository.Add(response);
+            return View("Thanks",response);
+        }
+        [HttpGet]
+        public IActionResult ListResponses()
+        {
+            return View(Repository.Responses);
+        }
     }
 }
