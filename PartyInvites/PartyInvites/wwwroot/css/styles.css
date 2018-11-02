@@ -1,0 +1,20 @@
+﻿body {
+    border:1px solid #000000;
+    padding:5px 10px;
+    width:50%;    
+}
+.input-validation-error {
+    border:1px solid red!important;
+    background-color:#f1c6c6!important;
+}
+
+.validation-summary-errors {
+    font-weight:bold;
+    color:red;
+}
+.validation-summary-valid{
+    display:none;
+}
+.response-text{
+    font-weight:bolder;
+}

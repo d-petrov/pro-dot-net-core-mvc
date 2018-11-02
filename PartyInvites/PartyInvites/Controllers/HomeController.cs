@@ -13,10 +13,12 @@ namespace PartyInvites.Controllers
         public ViewResult Index()
         {
             DateTime now = DateTime.Now;
+            ViewBag.Title = "Welcome";
             ViewBag.now = now;
             ViewBag.greeting = (now.Hour - 12 <= 0) ? "Good morning fucker" : "Good afternoon asshat";
-            return View("Example");
+            return View("Welcome");
         }
+        [HttpGet]
         public IActionResult RsvpForm()
         {
             return View();
@@ -24,13 +26,26 @@ namespace PartyInvites.Controllers
         [HttpPost]
         public IActionResult RsvpForm(GuestResponse response)
         {
-            Repository.Add(response);
-            return View("Thanks",response);
+            bool validState = ModelState.IsValid;
+            bool addSuccess = false;
+            if (validState)
+            {
+                addSuccess = Repository.Add(response);                
+            }
+            if (addSuccess)
+            {
+                return View("Thanks", response);
+            }
+            else
+            {    
+                //TODO:if not valid how to display error
+                return View();
+            }
         }
         [HttpGet]
         public IActionResult ListResponses()
         {
-            return View(Repository.Responses);
+            return View(Repository.Responses.Where(resp => resp.WillAttend == true));
         }
     }
 }
