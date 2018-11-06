@@ -10,6 +10,6 @@ namespace WWVS.Controllers
     public class HomeController : Controller
     {
         public IActionResult Index()
-            => View(SimpleRepository.SharedRepository.Products);
+            => View(SimpleRepository.SharedRepository.Products.Where(product => product?.Price < 50));
     }
 }
