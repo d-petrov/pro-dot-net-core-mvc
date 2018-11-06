@@ -1,6 +1,14 @@
 ﻿@model Product
 @{
-    Layout = "_BasicLayout";
     ViewBag.Title = "Crap Bag";
 }
-Product name @Model.Name;
+<div>
+    @{int count = ViewBag.Count;}
+    Product name @Model.Name with @count in stock.
+    @if (count < 5)
+    {
+        @:That is not enough.
+    }
+</div>
+
+

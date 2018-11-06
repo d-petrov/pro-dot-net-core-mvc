@@ -18,6 +18,7 @@ namespace RazorExample.Controllers
                 Category = "Watersports",
                 Price = 275M
             };
+            ViewBag.Count = 2;
             return View(myProduct);
         }
     }
