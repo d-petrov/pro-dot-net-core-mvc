@@ -8,13 +8,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using SportsStore.Models;
 using SportsStore.Models.Fakes;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 namespace SportsStore
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        #region props
+        public IConfiguration Configuration { get; }
+        #endregion props
+        public Startup(IConfiguration configuration) => Configuration = configuration;
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
@@ -24,10 +28,6 @@ namespace SportsStore
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
 #if DEBUG
             app.UseDeveloperExceptionPage();
 #endif
@@ -35,14 +35,9 @@ namespace SportsStore
             app.UseStaticFiles();
             app.UseMvc(routes => 
             {
-                routes.MapRoute(name:"default",template:"{controller=Product}/{action=List}/{id?}");
+                routes.MapRoute(name:"default",
+                                template:"{controller=Product}/{action=List}/{id?}");
             });
-
-
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
         }
     }
 }
