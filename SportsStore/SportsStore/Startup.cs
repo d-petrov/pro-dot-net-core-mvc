@@ -18,9 +18,12 @@ namespace SportsStore
         public IConfiguration Configuration { get; }
         #endregion props
         public Startup(IConfiguration configuration) => Configuration = configuration;
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options => 
+                    options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"])
+                );            
             services.AddMvc();
             services.AddTransient<IProductRepository,FakeProductRepository>();
         }
