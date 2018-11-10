@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Product>
+﻿@model ProductListViewModel
 <table>
     <thead>
         <tr>
@@ -9,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Product p in Model)
+        @foreach (Product p in Model.Products)
         {
             <tr>
                 <td>@p.ProductID</td>
@@ -19,5 +19,5 @@
             </tr>
         }
     </tbody>
-
 </table>
+<div page-model="@Model.PagingInfo" page-action="List"></div>

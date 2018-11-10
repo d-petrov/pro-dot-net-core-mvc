@@ -22,11 +22,11 @@ namespace SportsStore
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => 
+            services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"])
-                );            
+                );
             services.AddMvc();
-            services.AddTransient<IProductRepository,EFProductRepository>();
+            services.AddTransient<IProductRepository, EFProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,10 +37,13 @@ namespace SportsStore
 #endif
             app.UseStatusCodePages();
             app.UseStaticFiles();
-            app.UseMvc(routes => 
+            app.UseMvc(routes =>
             {
-                routes.MapRoute(name:"default",
-                                template:"{controller=Product}/{action=List}/{id?}");
+                routes.MapRoute(name: "pagination",
+                                template: "Products/Page{productPage}",
+                                defaults: new { Controller = "Product", action = "List" });
+                routes.MapRoute(name: "default",
+                                template: "{controller=Product}/{action=List}/{id?}");
             });
             SeedProductData.EnsurePopulated(app);
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SportsStore.Models;
+using SportsStore.Models.ViewModels;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SportsStore.Controllers
@@ -21,11 +22,20 @@ namespace SportsStore.Controllers
         {
             return View();
         }
-        public IActionResult List(int page = 1) =>
-            View(repository.Products
+        public IActionResult List([FromQuery]int productPage = 1) =>      
+            View(new ProductListViewModel
+            {
+                Products = repository.Products
                 .OrderBy(p => p.ProductID)
-                .Skip(PageSize * (page - 1))
-                .Take(PageSize)
-                );
+                .Skip(PageSize * (productPage - 1))
+                .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = productPage,
+                    ItemsPerPage = PageSize,
+                    TotalItems = repository.Products.Count()
+                }
+            });
+        
     }
 }
