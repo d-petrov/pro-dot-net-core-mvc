@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using SportsStore.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace SportsStore.Models.Seed
 {
@@ -22,12 +23,24 @@ namespace SportsStore.Models.Seed
                 new Product {Name = "Corner Flags",Description = "Give your playing field a professional touch",
                             Category = "Soccer", Price = 34.95m },
                 new Product {Name = "Stadium",Description = "Flat-packed 35,000-seat stadium",
-                            Category = "Soccer", Price = 79500 }
+                            Category = "Soccer", Price = 79500 },
+                new Product {Name = "Whorehouse",Description = "Flat-packed 35,000-whore house",
+                            Category = "Soccer", Price = 179500 },
+                new Product {Name = "Idiot population",Description = "one million idiots",
+                            Category = "Idiots", Price = 0 },
+
+
             };        
         public static void EnsurePopulated(IApplicationBuilder app)
         {
             ApplicationDbContext dbContext = app.ApplicationServices.GetRequiredService<ApplicationDbContext>();
-            //dbContext.Database
+            dbContext.Database.Migrate();
+
+            if (!dbContext.Products.Any())
+            {                
+                dbContext.Products.AddRange(GenerateProducts());
+            }
+            dbContext.SaveChanges();
         }
 
     }

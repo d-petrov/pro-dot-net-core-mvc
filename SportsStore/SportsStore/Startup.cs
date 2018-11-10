@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using SportsStore.Models;
 using SportsStore.Models.Fakes;
+using SportsStore.Models.Seed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 namespace SportsStore
@@ -25,7 +26,7 @@ namespace SportsStore
                     options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"])
                 );            
             services.AddMvc();
-            services.AddTransient<IProductRepository,FakeProductRepository>();
+            services.AddTransient<IProductRepository,EFProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +41,8 @@ namespace SportsStore
             {
                 routes.MapRoute(name:"default",
                                 template:"{controller=Product}/{action=List}/{id?}");
-            });         
+            });
+            SeedProductData.EnsurePopulated(app);
         }
     }
 }
