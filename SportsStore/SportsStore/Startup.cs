@@ -40,7 +40,7 @@ namespace SportsStore
             {
                 routes.MapRoute(name:"default",
                                 template:"{controller=Product}/{action=List}/{id?}");
-            });
+            });         
         }
     }
 }
