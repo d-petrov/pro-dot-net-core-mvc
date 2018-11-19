@@ -6,12 +6,13 @@ using SportsStore.Models;
 
 namespace SportsStore.Models.Fakes
 {
-    public class FakeProductRepository : IProductRepository
+    public class FakeProductRepository : BaseProductRepository
     {
-        public IQueryable<Product> Products => new List<Product>()
+        public override IQueryable<Product> Products => new List<Product>()
         {
             new Product{Name="Butt",Price=10M},
             new Product{Name="Tits",Price=222M}
         }.AsQueryable<Product>();
+       
     }
 }

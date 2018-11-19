@@ -14,18 +14,31 @@ namespace SportsStore.Infrastructure.TagHelpers
     [HtmlTargetElement("div", Attributes = "page-model")]
     public class PageLinkTagHelper : TagHelper
     {
+        #region ctor
         private IUrlHelperFactory urlHelperFactory;
         public PageLinkTagHelper(IUrlHelperFactory urlHelperFactory)
         {
             this.urlHelperFactory = urlHelperFactory;
         }
-
+        #endregion
+        #region props
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
+
         public PagingInfo PageModel { get; set; }
+
         public string PageAction { get; set; }
 
+        public bool PageClassesEnabled { get; set; } = false;
+
+        public string PageClass { get; set; }
+
+        public string PageClassNormal { get; set; }
+
+        public string PageClassSelected { get; set; }
+        #endregion
+        #region methods
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
@@ -34,10 +47,23 @@ namespace SportsStore.Infrastructure.TagHelpers
             {
                 TagBuilder tag = new TagBuilder("a");
                 tag.Attributes["href"] = urlHelper.Action(PageAction, new { productPage = i });
+                if (PageClassesEnabled)
+                {
+                    tag.AddCssClass(PageClass);
+                    if(i == PageModel.CurrentPage)
+                    {
+                        tag.AddCssClass(PageClassSelected);
+                    }
+                    else
+                    {
+                        tag.AddCssClass(PageClassNormal);
+                    }
+                }
                 tag.InnerHtml.Append(i.ToString());
                 result.InnerHtml.AppendHtml(tag);
             }
             output.Content.AppendHtml(result.InnerHtml);
         }
+        #endregion
     }
 }

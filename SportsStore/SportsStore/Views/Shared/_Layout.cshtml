@@ -3,12 +3,24 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="~/lib/"/>
+    <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/*.min.css"/>
     <title>Sports Store</title>
 </head>
 <body>
-    <div>
-        @RenderBody()
+    <div class="navbar bg-light" role="navigation">
+        @for (int i = 0; i < 4; i++)
+        {
+            <a class="navbar-brand" href="#">SPORTS NAV page (@i.ToString())</a>
+        }
+      
+    </div>
+    <div class="row m-1 p-1">
+        <div id="categories" class="col-3">
+            Left side navigation
+        </div>
+        <div class="col-9">
+            @RenderBody()
+        </div>
     </div>
 </body>
 </html>
