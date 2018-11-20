@@ -12,5 +12,8 @@ namespace SportsStore.Infrastructure
                     .OrderBy(p => p.ProductID)
                     .Skip(pageSize * (currentPage - 1))
                     .Take(pageSize);
+
+        public static int GetTotalItemsByCategory(string category, IEnumerable<Product> input) =>                  
+            (category == null ? input.Count() : input.Where(c => c.Category == category).Count());                   
     }
 }
