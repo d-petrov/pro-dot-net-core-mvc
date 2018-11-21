@@ -27,6 +27,8 @@ namespace SportsStore
                 );
             services.AddMvc();
             services.AddTransient<IProductRepository, EFProductRepository>();
+            services.AddMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +39,7 @@ namespace SportsStore
 #endif
             app.UseStatusCodePages();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: null,
@@ -53,7 +56,7 @@ namespace SportsStore
                                 defaults: new { Controller = "Product", action = "List", productPage = 1 });
                 routes.MapRoute(name: null,
                                 template: "{controller}/{action}/{id?}");
-            });
+            });            
             SeedProductData.EnsurePopulated(app);
         }
     }

@@ -1,0 +1,36 @@
+﻿@model CartIndexViewModel
+
+<table class="table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="p-1">Quantity</th>
+            <th class="p-1">Name</th>
+            <th class="text-right p-1">Price</th>
+            <th class="text-right p-1">Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CartLine line in Model.Cart.Lines)
+        {
+            <tr>
+                <td class="text-center">@line.Quantity</td>
+                <td class="text-left">@line.Product.Name</td>
+                <td class="text-right p-1">@line.Product.Price.ToString("c")</td>
+                <td class="text-right">@((line.Quantity * line.Product.Price).ToString("c"))</td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right p-1">Total:</td>
+            <td class="text-right">@Model.Cart.TotalSum().ToString("c")</td>
+        </tr>
+    </tfoot>
+</table>
+
+<form asp-action="ClearCart" asp-controller="Cart" method="post">
+    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+    <button class="btn btn-bottom" type="submit">Clear</button>
+</form>
+
+@await Html.PartialAsync("BackLink", Model.ReturnUrl)

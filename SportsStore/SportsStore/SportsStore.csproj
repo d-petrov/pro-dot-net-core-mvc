@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Cart\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

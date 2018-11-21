@@ -14,13 +14,16 @@ namespace SportsStore.Models
 
     public class Cart
     {
+
         private List<CartLine> lineCollection = new List<CartLine>();
+
+        public static string SessionKey => "cartkey";
 
         public virtual void AddItem(Product product, int quantity)
         {
             CartLine thisLine = lineCollection.Where(cl => cl.Product.ProductID == product.ProductID)
                                         .FirstOrDefault();
-            if (thisLine != null)
+            if (thisLine == null)
             {
                 lineCollection.Add(new CartLine { Product = product, Quantity = quantity });
             }
