@@ -12,10 +12,13 @@ namespace SportsStore.Controllers
     public class CartController : Controller
     {
         private IProductRepository repo;
+        private Cart cart;
 
-        public CartController(IProductRepository repo)
+        //cart service registered in startup maps Cart to SessionCart
+        public CartController(IProductRepository repo, Cart cartService)
         {
             this.repo = repo;
+            cart = cartService;
         }
 
         private Cart GetCart()
@@ -35,7 +38,7 @@ namespace SportsStore.Controllers
         {
             CartIndexViewModel viewModel = new CartIndexViewModel
             {
-                Cart = GetCart(),
+                Cart = cart,
                 ReturnUrl = returnUrl
             };
             return View(viewModel);
@@ -46,10 +49,8 @@ namespace SportsStore.Controllers
         {
             Product product = repo.Products.Where(p => p.ProductID == productId).FirstOrDefault();
             if (product != null)
-            {
-                Cart cart = GetCart();
-                cart.AddItem(product, quantity);
-                SetCart(cart);
+            {                
+                cart.AddItem(product, quantity);                
             }
             return RedirectToAction("Index", new { returnUrl });
         }
@@ -58,19 +59,15 @@ namespace SportsStore.Controllers
         {
             Product product = repo.Products.Where(p => p.ProductID == productId).FirstOrDefault();
             if (product != null)
-            {
-                Cart cart = GetCart();
-                cart.RemoveItem(productId);
-                SetCart(cart);
+            {                
+                cart.RemoveItem(productId);                
             }
             return RedirectToAction("Index", new { returnUrl });
         }
         [HttpPost]
         public IActionResult ClearCart(string returnUrl)
-        {
-            Cart cart = GetCart();
-            cart.ClearAllItems();
-            SetCart(cart);
+        {            
+            cart.RemoveAllItems();         
             return View("Empty", returnUrl);
         }
     }

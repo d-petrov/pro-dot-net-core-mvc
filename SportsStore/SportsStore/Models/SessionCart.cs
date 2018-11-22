@@ -56,6 +56,11 @@ namespace SportsStore.Models
             base.RemoveItem(product);
             SetCartToSession(Session, this);
         }
+        public override void RemoveItem(int productId)
+        {
+            base.RemoveItem(productId);
+            SetCartToSession(Session, this);
+        }
         public override void RemoveAllItems()
         {
             base.RemoveAllItems();
