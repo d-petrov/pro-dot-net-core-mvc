@@ -3,24 +3,25 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/*.min.css" />
+    <link rel="stylesheet" asp-href-include="~/lib/fontawesome/web-fonts-with-css/css/*.min.css" />
+    <link rel="stylesheet" asp-href-include="~/lib/bootstrap/dist/css/*.min.css" asp-href-exclude="**/*-reboot*,**/*-grid*" />
+
     <title>Sports Store</title>
 </head>
 <body>
-    <div class="navbar bg-light" role="navigation">
-        @for (int i = 0; i < 4; i++)
-        {
-            <a class="navbar-brand" href="#">SPORTS NAV page (@i.ToString())</a>
-        }
-
+    <div class="row">
+        <a class="col navbar-brand" href="#">SPORTS STORE</a>
+        <div class="col-4 text-right">
+            @await Component.InvokeAsync("CartSummary")
+        </div>
     </div>
     <div class="row m-1 p-1">
         <div id="categories" class="col-1">
             @await Component.InvokeAsync("NavigationMenu")
         </div>
-        <div class="col-9">
+        <div class="col-5">
             @RenderBody()
-        </div>
+        </div>  
     </div>
 </body>
 </html>
